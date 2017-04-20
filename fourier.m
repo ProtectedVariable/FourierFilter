@@ -31,7 +31,7 @@ ylabel('fhat(w)');
 %%%%%%%%%%%%%%%% IFFT %%%%%%%%%%%%%%%%%
 f2 = ifft(fhat, 'symmetric');
 figure(2);
-fplot(f, 0:10);
+fplot(f, [0 1]);
 hold on;
 plot(t(1:size(f2, 2)), f2, 'r'); 
 title('Inverse Fourier Transform of fhat(w)');
@@ -50,8 +50,10 @@ title('Filtered Fourier Transform of f(t)');
 xlabel('f (Hz)');
 ylabel('fhat''(w)');
 
-f3 = ifft(fhatlow, 'symmetric');
+f3 = ifft(fhatlow, 'symmetric')*sampleSize/2;
 figure(4);
+fplot(f, [0 5]);
+hold on;
 plot(t(1:size(f3, 2)), f3, 'r'); 
 
 %%%%%%%%%%%%%% IFFT 3 %%%%%%%%%%%%%%%%%%%
@@ -65,6 +67,17 @@ title('Filtered Fourier Transform of f(t)');
 xlabel('f (Hz)');
 ylabel('fhat''''(w)');
 
-f4 = ifft(fhathigh, 'symmetric');
+f4 = ifft(fhathigh, 'symmetric')*sampleSize/2;
 figure(6);
+fplot(f, [0 5]);
+hold on;
 plot(t(1:size(f4, 2)), f4, 'r'); 
+
+%%%%%% DATA %%%%%
+fileID = fopen('mydata.txt','r');
+h = fscanf(fileID, '%f %f', [2 Inf]);
+fclose(fileID);
+
+figure(7);
+plot(h(1,:), h(2,:));
+%%%%% FFT 2 %%%%%%
