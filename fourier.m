@@ -1,5 +1,5 @@
 clear
-f = @(t) cos(2*pi*t)+0.9*cos(20*pi*t);
+f = @(t) cos(2*pi*t)+0.2*cos(20*pi*t);
 
 lowDirac = 1; %Hz
 highDirac = 10; %Hz
@@ -31,7 +31,7 @@ ylabel('fhat(w)');
 %%%%%%%%%%%%%%%% IFFT %%%%%%%%%%%%%%%%%
 f2 = ifft(fhat, 'symmetric');
 figure(2);
-fplot(f, [0 1]);
+fplot(f, [0 5]);
 hold on;
 plot(t(1:size(f2, 2)), f2, 'r'); 
 title('Inverse Fourier Transform of fhat(w)');
@@ -39,35 +39,28 @@ xlabel('t (s)');
 ylabel('f(t)');
 
 %%%%%%%%%%%%%% IFFT 2 %%%%%%%%%%%%%%%%%%%
-%an = f*n/s
-%n = an/freq * sampleSize
-maxFreq = ceil((lowDirac+region)/freq*sampleSize);
-fhatlow = zeros(1, size(a,2));
-fhatlow(1:maxFreq) = halfTransform(1:maxFreq);
+fhatlow = filterFFT(fhat, 0, lowDirac+region, freq);
 figure(3);
-plot(a, fhatlow);
+plot(fhatlow);
 title('Filtered Fourier Transform of f(t)');
 xlabel('f (Hz)');
 ylabel('fhat''(w)');
 
-f3 = ifft(fhatlow, 'symmetric')*sampleSize/2;
+f3 = ifft(fhatlow, 'symmetric');
 figure(4);
 fplot(f, [0 5]);
 hold on;
 plot(t(1:size(f3, 2)), f3, 'r'); 
 
 %%%%%%%%%%%%%% IFFT 3 %%%%%%%%%%%%%%%%%%%
-maxFreq = ceil((highDirac+region)/freq*sampleSize);
-minFreq = ceil((highDirac-region)/freq*sampleSize);
-fhathigh = zeros(1, size(a,2));
-fhathigh(minFreq:maxFreq) = halfTransform(minFreq:maxFreq);
+fhathigh = filterFFT(fhat, highDirac-region, highDirac+region, freq);
 figure(5);
-plot(a, fhathigh);
+plot(fhathigh);
 title('Filtered Fourier Transform of f(t)');
 xlabel('f (Hz)');
 ylabel('fhat''''(w)');
 
-f4 = ifft(fhathigh, 'symmetric')*sampleSize/2;
+f4 = ifft(fhathigh, 'symmetric');
 figure(6);
 fplot(f, [0 5]);
 hold on;
