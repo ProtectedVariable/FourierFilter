@@ -5,7 +5,7 @@ lowDirac = 1; %Hz
 highDirac = 10; %Hz
 region = 4; %Hz
 
-period = 0.025;
+period = 0.0025;
 t = 0:period:10;
 freq = 1/period;
 sampleSize = size(t, 2);
@@ -75,10 +75,11 @@ figure(7);
 plot(h(1,:), h(2,:));
 %%%%% FFT 2 %%%%%%
 
-fhat = fftshift(fft(h(2,:)));
-sampleSize = size(fhat,2);
+hhat = fftshift(fft(h(2,:)));
+sampleSize = size(hhat,2);
+freq = size(h, 2)./h(1, end);
 
-module = abs(fhat/sampleSize);
+module = abs(hhat/sampleSize);
 halfTransform = module(ceil(sampleSize/2):end);
 halfTransform(1:end) = 2*halfTransform(1:end);
 a = freq*(0:(sampleSize/2))/sampleSize;
@@ -89,9 +90,18 @@ title('Fourier Transform of h(t)');
 xlabel('f (Hz)');
 ylabel('hhat(w)');
 
-fhatfiltered = filterFFT(halfTransform, 0, 10, freq);
+hhatfiltered = filterFFT(halfTransform, 0, 10, freq);
 figure(9);
-plot(a, fhatfiltered);
+plot(a, hhatfiltered);
 title('Filtered Fourier Transform of h(t)');
 xlabel('f (Hz)');
 ylabel('hhat(w)');
+
+%%%%% IFFT hhat(w) %%%%
+
+hr = ifft(hhatfiltered, 'symmetric')*size(hhatfiltered, 2); %buggy cus ifftshift is applied on only half transform... waiting for Techear input
+figure(10);
+plot(1:size(hr, 2), hr, 'r'); 
+title('Filtered Inverse Fourier Transform of hhat(w)');
+xlabel('t (s)');
+ylabel('h''(t)');
