@@ -1,12 +1,16 @@
-function [ filtered ] = filterFFT( fft, minFreq, maxFreq, freq )
-%Indices
-%an = f*n/s
-%n = an/freq * sampleSize
-sampleSize = size(fft, 2)*2;
-maxFreq = ceil((maxFreq)/freq*sampleSize)+1; 
-minFreq = max(1, ceil((minFreq)/freq*sampleSize));
-filtered = zeros(1, size(fft,2));
-filtered(minFreq:maxFreq) = fft(minFreq:maxFreq);
+function [ filtered ] = filterFFT( fft, minFreq, maxFreq, SampleFreq )
+center = size(fft,2)/2;
+sampleSize = size(fft, 2);
+%Convert frequency to fft indices
+%freq at idx i = 
+pMin = round(center+minFreq*ceil(sampleSize/SampleFreq));
+pMax = round(center+maxFreq*floor(sampleSize/SampleFreq));
+nMin = round(center-maxFreq*floor(sampleSize/SampleFreq));
+nMax = round(center-minFreq*ceil(sampleSize/SampleFreq));
+
+filtered = zeros(1, sampleSize);
+filtered(pMin:pMax) = fft(pMin:pMax);
+filtered(nMin:nMax) = fft(nMin:nMax);
 
 end
 

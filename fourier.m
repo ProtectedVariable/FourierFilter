@@ -5,7 +5,7 @@ lowDirac = 1; %Hz
 highDirac = 10; %Hz
 region = 4; %Hz
 
-period = 0.0025;
+period = 0.025;
 t = 0:period:10;
 freq = 1/period;
 sampleSize = size(t, 2);
@@ -14,16 +14,9 @@ sampleSize = size(t, 2);
 samples = f(t);
 fhat = fftshift(fft(samples));
 
-%fhat has to be normalized by the sample size (see instructions)
-module = abs(fhat/sampleSize);
-%only keep the positive spectrum
-halfTransform = module(ceil(sampleSize/2):end);
-%Since power was divided with the negative spectrum, we double the values
-halfTransform(1:end) = 2*halfTransform(1:end);
-%frequency axis (btw respects shannon sampling theorem) (0->f/2)
 a = freq*(0:(sampleSize/2))/sampleSize;
 figure(1);
-plot(a, halfTransform);
+plot(a, getPlotableFFT(fhat));
 title('Fourier Transform of f(t)');
 xlabel('f (Hz)');
 ylabel('fhat(w)');
@@ -39,28 +32,28 @@ xlabel('t (s)');
 ylabel('f(t)');
 
 %%%%%%%%%%%%%% IFFT 2 %%%%%%%%%%%%%%%%%%%
-fhatlow = filterFFT(halfTransform, 0, lowDirac+region, freq)*sampleSize/4;
+fhatlow = filterFFT(fhat, 0, lowDirac+region, freq);
 figure(3);
-plot(fhatlow);
+plot(getPlotableFFT(fhatlow));
 title('Filtered Fourier Transform of f(t)');
 xlabel('f (Hz)');
 ylabel('fhat''(w)');
 
-f3 = ifft(fhatlow, 'symmetric');
+f3 = ifft(ifftshift(fhatlow), 'symmetric');
 figure(4);
 fplot(f, [0 5]);
 hold on;
 plot(t(1:size(f3, 2)), f3, 'r'); 
 
 %%%%%%%%%%%%%% IFFT 3 %%%%%%%%%%%%%%%%%%%
-fhathigh = filterFFT(halfTransform, highDirac-region, highDirac+region, freq)*sampleSize/4;
+fhathigh = filterFFT(fhat, highDirac-region, highDirac+region, freq);
 figure(5);
-plot(fhathigh);
+plot(getPlotableFFT(fhathigh));
 title('Filtered Fourier Transform of f(t)');
 xlabel('f (Hz)');
 ylabel('fhat''''(w)');
 
-f4 = ifft(fhathigh, 'symmetric');
+f4 = ifft(ifftshift(fhathigh), 'symmetric');
 figure(6);
 fplot(f, [0 5]);
 hold on;
@@ -79,27 +72,24 @@ hhat = fftshift(fft(h(2,:)));
 sampleSize = size(hhat,2);
 freq = size(h, 2)./h(1, end);
 
-module = abs(hhat/sampleSize);
-halfTransform = module(ceil(sampleSize/2):end);
-halfTransform(1:end) = 2*halfTransform(1:end);
 a = freq*(0:(sampleSize/2))/sampleSize;
 
 figure(8);
-plot(a, halfTransform);
+plot(a, getPlotableFFT(hhat));
 title('Fourier Transform of h(t)');
 xlabel('f (Hz)');
 ylabel('hhat(w)');
 
-hhatfiltered = filterFFT(halfTransform, 0, 10, freq);
+hhatfiltered = filterFFT(hhat, 0, 12, freq);
 figure(9);
-plot(a, hhatfiltered);
+plot(a, getPlotableFFT(hhatfiltered));
 title('Filtered Fourier Transform of h(t)');
 xlabel('f (Hz)');
 ylabel('hhat(w)');
 
 %%%%% IFFT hhat(w) %%%%
 
-hr = ifft(hhatfiltered, 'symmetric')*size(hhatfiltered, 2); %buggy cus ifftshift is applied on only half transform... waiting for Techear input
+hr = ifft(ifftshift(hhatfiltered), 'symmetric');
 figure(10);
 plot(1:size(hr, 2), hr, 'r'); 
 title('Filtered Inverse Fourier Transform of hhat(w)');
