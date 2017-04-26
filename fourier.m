@@ -34,7 +34,7 @@ ylabel('f(t)');
 %%%%%%%%%%%%%% IFFT 2 %%%%%%%%%%%%%%%%%%%
 fhatlow = filterFFT(fhat, 0, lowDirac+region, freq);
 figure(3);
-plot(getPlotableFFT(fhatlow));
+plot(a, getPlotableFFT(fhatlow));
 title('Filtered Fourier Transform of f(t)');
 xlabel('f (Hz)');
 ylabel('fhat''(w)');
@@ -48,7 +48,7 @@ plot(t(1:size(f3, 2)), f3, 'r');
 %%%%%%%%%%%%%% IFFT 3 %%%%%%%%%%%%%%%%%%%
 fhathigh = filterFFT(fhat, highDirac-region, highDirac+region, freq);
 figure(5);
-plot(getPlotableFFT(fhathigh));
+plot(a, getPlotableFFT(fhathigh));
 title('Filtered Fourier Transform of f(t)');
 xlabel('f (Hz)');
 ylabel('fhat''''(w)');
@@ -91,7 +91,9 @@ ylabel('hhat(w)');
 
 hr = ifft(ifftshift(hhatfiltered), 'symmetric');
 figure(10);
-plot(1:size(hr, 2), hr, 'r'); 
+plot((1:size(hr, 2))/freq, hr, 'r'); 
+hold on;
+fplot(f, [0 10]);
 title('Filtered Inverse Fourier Transform of hhat(w)');
 xlabel('t (s)');
 ylabel('h''(t)');

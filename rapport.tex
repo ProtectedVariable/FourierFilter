@@ -15,7 +15,7 @@
   {\end{tabular}\par\vspace{\belowdisplayskip}}
   
 \newcommand{\ts}{\textsuperscript}
-
+\setlength{\parindent}{0pt}
 \title{Mathématique - TP Fourier}
 \author{Ibanez Thomas, Lovino Maxime}
 \begin{document}
@@ -37,17 +37,77 @@ a_k &  $\frac{2}{T} \int\limits_{-\frac{T}{2}}^{\frac{T}{2}} f(t) * cos(2\pi ftk
 b_k & $\frac{2}{T} \int\limits_{-\frac{T}{2}}^{\frac{T}{2}} f(t) * sin(2\pi ftk) dt$ $ \forall k > 0$
 \end{conditions}
 La periode de cette fonction est de 1 \newline
-Analytiquement on obtient
+Analytiquement nous (et wolfram) obtenons
 $a_0 = 0$, $a_1 = 1$, $a_{2...9} = 0$, $a_{10} = 0.9$ (tous les coefficient $b_k$ sont nuls)
 
 \subsection{Transformée de f(t)}
 La transformée de Fourier de cette fonction calculée numériquement par matlab donne ceci: \newline
+\begin{center}
 \includegraphics[scale=0.6]{"fhat.png"} \newline
+\end{center}
 On obtiens donc 2 "diracs" a 1 et 10 Hz ce qui correspond bien au fréquences trouvées dans la serie de Fourier. Les hauteurs sont respectivement 1 et 0.9 ce qui correspond également au coefficients trouvés dans la serie de Fourier.
 
 \subsection{Transformée inverse de $\hat{f}(\omega)$}
+Si on fait la transformée inverse de $\hat{f}(\omega)$
+On obtient une fonction très proche de l'originale.
+\begin{center}
+\includegraphics[scale=0.6]{"f_and_f_ifft.png"} \newline
+La fonction originale est tracée en bleu, et la fonction recomposée est tracée en rouge. (avec une periode d'échantillonnage de 0.025 [s]) 
+\end{center} 
 
+\begin{center}
+\includegraphics[scale=0.6]{"f_and_f_ifft1.png"} \newline
+La fonction originale est tracée en bleu, et la fonction recomposée est tracée en rouge. (avec une periode d'échantillonnage de 0.05 [s]) 
+\end{center} 
 
+\begin{center}
+\includegraphics[scale=0.6]{"f_and_f_ifft2.png"} \newline
+La fonction originale est tracée en bleu, et la fonction recomposée est tracée en rouge. (avec une periode d'échantillonnage de 0.1 [s]) 
+\end{center} 
+
+Moins on a d'échantillons, moins la fft est priécise et donc moins la recomposition est proche de l'originale.
+
+\subsection{Filtre}
+Si on filtre toutes les fréquences > 5 Hz on supprime le deuxième pic et on trouve la fonction suivante après ifft.
+\begin{center}
+\includegraphics[scale=0.6]{"fhatlow.png"} \newline
+\end{center}
+\begin{center}
+\includegraphics[scale=0.6]{"f_and_Fhatlow.png"} \newline
+La fonction originale est tracée en bleu, et la fonction filtrée est tracée en rouge.
+\end{center}
+On observe que la fonction filtrée correspond bien a la sinusoidale de période 1 et d'amplitude 1 qui compose la fonction originale. \newline
+
+Si on filtre toutes les fréquences < 5 Hz on supprime le premier pic et on trouve la fonction suivante après ifft.
+\begin{center}
+\includegraphics[scale=0.6]{"fhathigh.png"} \newline
+\end{center}
+\begin{center}
+\includegraphics[scale=0.6]{"f_and_fhathigh.png"} \newline
+La fonction originale est tracée en bleu, et la fonction filtrée est tracée en rouge.
+\end{center}
+On observe que la fonction filtrée correspond a la sinusoidale de période 0.1 et d'amplitude 0.9 qui compose la fonction originale \newline
+
+\subsection{MyData}
+La fonction h(t) donne ce graphique:
+\begin{center}
+\includegraphics[scale=0.6]{"h_raw.png"} \newline
+\end{center}
+Sa transformée de Fourier est la suivante:
+\begin{center}
+\includegraphics[scale=0.6]{"hhat_raw.png"} \newline
+\end{center}
+
+Après filtrage la transformée ressemble a ceci:
+\begin{center}
+\includegraphics[scale=0.6]{"hhat_filtre.png"} \newline
+\end{center}
+Ce qui donne la fonction suivante
+\begin{center}
+\includegraphics[scale=0.6]{"h_filtre.png"} \newline
+\end{center}
+
+On constate que $h(t) \approx f(t)$
 \section{Fonction de filtrage}
 
 \section{Affichage}
