@@ -1,0 +1,57 @@
+\documentclass[a4paper,11pt]{article}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage[frenchb]{babel}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{array}
+\usepackage{minted}
+\usemintedstyle{colorful}
+\usepackage{xcolor,graphicx}
+\usepackage{float}
+\usepackage[left=1.5cm,top=0.5cm,right=1.5cm,bottom=0.5cm,noheadfoot]{geometry}
+\newenvironment{conditions}
+  {\par\vspace{\abovedisplayskip}\noindent\begin{tabular}{>{$}l<{$} @{${}={}$} l}}
+  {\end{tabular}\par\vspace{\belowdisplayskip}}
+  
+\newcommand{\ts}{\textsuperscript}
+
+\title{Mathématique - TP Fourier}
+\author{Ibanez Thomas, Lovino Maxime}
+\begin{document}
+\maketitle
+\section{Introduction}
+Pour ce TP il nous a été demandé d'utiliser MatLab pour calculer numériquement des transformées de Fourier (via fft) et leurs inverses (via ifft) et de modifier ces transformée pour créer un filtre.
+\section{Questions de l'énoncé}
+
+\subsection{Serie de Fourier de f(t)}
+Soit la fonction $f(t) = cos(2\pi t) + 0.9*cos(2\pi 10t)$ \newline
+Nous devons calculer les coefficients de la serie de Fourier de cette fonction (rappel, une serie de fourier est calculée par cette formule: 
+\begin{equation*}
+f(t) = a_0 + \sum_{k=0}^\infty a_k * cos(2\pi f tk) + b_k * sin(2\pi f tk)
+\end{equation*}
+Où
+\begin{conditions}
+a_0 &  $\frac{1}{T} \int\limits_{-\frac{T}{2}}^{\frac{T}{2}}  f(t) dt $ \\
+a_k &  $\frac{2}{T} \int\limits_{-\frac{T}{2}}^{\frac{T}{2}} f(t) * cos(2\pi ftk) dt$ $ \forall k > 0$\\
+b_k & $\frac{2}{T} \int\limits_{-\frac{T}{2}}^{\frac{T}{2}} f(t) * sin(2\pi ftk) dt$ $ \forall k > 0$
+\end{conditions}
+La periode de cette fonction est de 1 \newline
+Analytiquement on obtient
+$a_0 = 0$, $a_1 = 1$, $a_{2...9} = 0$, $a_{10} = 0.9$ (tous les coefficient $b_k$ sont nuls)
+
+\subsection{Transformée de f(t)}
+La transformée de Fourier de cette fonction calculée numériquement par matlab donne ceci: \newline
+\includegraphics[scale=0.6]{"fhat.png"} \newline
+On obtiens donc 2 "diracs" a 1 et 10 Hz ce qui correspond bien au fréquences trouvées dans la serie de Fourier. Les hauteurs sont respectivement 1 et 0.9 ce qui correspond également au coefficients trouvés dans la serie de Fourier.
+
+\subsection{Transformée inverse de $\hat{f}(\omega)$}
+
+
+\section{Fonction de filtrage}
+
+\section{Affichage}
+
+\section{Script Principal}
+
+\end{document}
