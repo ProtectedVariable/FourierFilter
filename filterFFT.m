@@ -2,7 +2,6 @@ function [ filtered ] = filterFFT( fft, minFreq, maxFreq, SampleFreq )
 center = size(fft,2)/2;
 sampleSize = size(fft, 2);
 %Convert frequency to fft indices
-%freq at idx i = 
 pMin = round(center+minFreq*ceil(sampleSize/SampleFreq));
 pMax = round(center+maxFreq*floor(sampleSize/SampleFreq));
 nMin = round(center-maxFreq*floor(sampleSize/SampleFreq));

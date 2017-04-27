@@ -62,7 +62,7 @@ La fonction originale est tracée en bleu, et la fonction recomposée est tracé
 
 \begin{center}
 \includegraphics[scale=0.6]{"f_and_f_ifft2.png"} \newline
-La fonction originale est tracée en bleu, et la fonction recomposée est tracée en rouge. (avec une periode d'échantillonnage de 0.1 [s]) 
+La fonction originale est tracée en bleu, et la fonction recomposée est tracée en rouge. (avec une periode d'échantillonnage de 0.1 [s])  On constate que cette fonction n'est pas bien représentée, en effet si la periode est de 0.1 [s] la fréquence d'échantillonnage est de 10 [Hz]. Or le théroème de Shannon nous dit que la frequence d'échantillonnage doit etre superieure à $2 *$ la frequence max.
 \end{center} 
 
 Moins on a d'échantillons, moins la fft est priécise et donc moins la recomposition est proche de l'originale.
@@ -107,11 +107,17 @@ Ce qui donne la fonction suivante
 \includegraphics[scale=0.6]{"h_filtre.png"} \newline
 \end{center}
 
-On constate que $h(t) \approx f(t)$
+On constate que $h(t) \approx f(t) $
+
 \section{Fonction de filtrage}
+La fonction permettant de filtrer les transformée de Fourier est définie dans filterFFT.m comme ceci:
+\inputminted[breaklines,breaksymbol=, linenos, frame=single,label=filterFFT.m, stepnumber=1,tabsize=2]{Matlab}{filterFFT.m}
 
 \section{Affichage}
+Pour l'affichage, il faut prendre la module des valeurs de la transformée et supprimer la partie symétrique de la transformée de Fourier. Ceci est réalisé dans getPlotableFFT.m.
+\inputminted[breaklines,breaksymbol=, linenos, frame=single,label=getPlotableFFT.m, stepnumber=1,tabsize=2]{Matlab}{getPlotableFFT.m}
 
 \section{Script Principal}
-
+Le script principal lance les diverses étapes demandées dans l'énoncé.
+\inputminted[breaklines,breaksymbol=, linenos, frame=single,label=fourier.m, stepnumber=1,tabsize=2]{Matlab}{fourier.m}
 \end{document}
