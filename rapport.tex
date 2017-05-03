@@ -78,7 +78,7 @@ La fonction originale est tracée en bleu, et la fonction filtrée est tracée e
 \end{center}
 On observe que la fonction filtrée correspond bien a la sinusoidale de période 1 et d'amplitude 1 qui compose la fonction originale. \newline
 
-Si on filtre toutes les fréquences < 5 Hz on supprime le premier pic et on trouve la fonction suivante après ifft.
+Si on filtre toutes les fréquences < 5 Hz on supprime le premier pic et on trouve la fonction suivante après ifft. \newline
 \begin{center}
 \includegraphics[scale=0.6]{"fhathigh.png"} \newline
 \end{center}
@@ -112,6 +112,7 @@ On constate que $h(t) \approx f(t) $
 \section{Fonction de filtrage}
 La fonction permettant de filtrer les transformée de Fourier est définie dans filterFFT.m comme ceci:
 \inputminted[breaklines,breaksymbol=, linenos, frame=single,label=filterFFT.m, stepnumber=1,tabsize=2]{Matlab}{filterFFT.m}
+La fonction de filtrage travaille sur des transformée "shiftées" par la fonction fftshift, cela permet d'avoir un représentation plus proche de ce qu'un analyseur de spectre renverait et donc plus intuitif pour programmer un filtre.
 
 \section{Affichage}
 Pour l'affichage, il faut prendre la module des valeurs de la transformée et supprimer la partie symétrique de la transformée de Fourier. Ceci est réalisé dans getPlotableFFT.m.
@@ -120,4 +121,9 @@ Pour l'affichage, il faut prendre la module des valeurs de la transformée et su
 \section{Script Principal}
 Le script principal lance les diverses étapes demandées dans l'énoncé.
 \inputminted[breaklines,breaksymbol=, linenos, frame=single,label=fourier.m, stepnumber=1,tabsize=2]{Matlab}{fourier.m}
+
+\section{Conclusion}
+Ce TP nous a permis de bien comprendre l'utilisation des transformées de Fourier dans le cardre d'un filtre.\newline 
+Nous avons été agréablement surpris par la précision des fft et ifft qui donnent numériquement des résultats très satisfaisants. \newline
+Ce TP à également permis de mieux comprendre certaines information reçues en base de télécom en première année sur les propriétés des transformées de Fourier.
 \end{document}
