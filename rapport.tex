@@ -21,12 +21,12 @@
 \begin{document}
 \maketitle
 \section{Introduction}
-Pour ce TP il nous a été demandé d'utiliser MatLab pour calculer numériquement des transformées de Fourier (via fft) et leurs inverses (via ifft) et de modifier ces transformée pour créer un filtre.
+Pour ce TP il nous a été demandé d'utiliser MatLab pour calculer numériquement des transformées de Fourier (via fft) et leurs inverses (via ifft) et de modifier ces transformées pour créer un filtre.
 \section{Questions de l'énoncé}
 
 \subsection{Serie de Fourier de f(t)}
 Soit la fonction $f(t) = cos(2\pi t) + 0.9*cos(2\pi 10t)$ \newline
-Nous devons calculer les coefficients de la serie de Fourier de cette fonction (rappel, une serie de fourier est calculée par cette formule: 
+Nous devons calculer les coefficients de la serie de Fourier de cette fonction. Rappel, une serie de fourier est calculée par cette formule: 
 \begin{equation*}
 f(t) = a_0 + \sum_{k=0}^\infty a_k * cos(2\pi f tk) + b_k * sin(2\pi f tk)
 \end{equation*}
@@ -41,11 +41,11 @@ Analytiquement nous (et wolfram) obtenons
 $a_0 = 0$, $a_1 = 1$, $a_{2...9} = 0$, $a_{10} = 0.9$ (tous les coefficient $b_k$ sont nuls)
 
 \subsection{Transformée de f(t)}
-La transformée de Fourier de cette fonction calculée numériquement par matlab donne ceci: \newline
+La transformée de Fourier de cette fonction calculée numériquement par Matlab donne ceci: \newline
 \begin{center}
 \includegraphics[scale=0.6]{"fhat.png"} \newline
 \end{center}
-On obtiens donc 2 "diracs" a 1 et 10 Hz ce qui correspond bien au fréquences trouvées dans la serie de Fourier. Les hauteurs sont respectivement 1 et 0.9 ce qui correspond également au coefficients trouvés dans la serie de Fourier.
+On obtiens donc 2 "diracs" a 1 et 10 Hz ce qui correspond bien au fréquences trouvées dans la serie de Fourier. Les hauteurs sont respectivement 1 et 0.9 ce qui correspond également aux coefficients trouvés dans la serie de Fourier.
 
 \subsection{Transformée inverse de $\hat{f}(\omega)$}
 Si on fait la transformée inverse de $\hat{f}(\omega)$
@@ -62,10 +62,10 @@ La fonction originale est tracée en bleu, et la fonction recomposée est tracé
 
 \begin{center}
 \includegraphics[scale=0.6]{"f_and_f_ifft2.png"} \newline
-La fonction originale est tracée en bleu, et la fonction recomposée est tracée en rouge. (avec une periode d'échantillonnage de 0.1 [s])  On constate que cette fonction n'est pas bien représentée, en effet si la periode est de 0.1 [s] la fréquence d'échantillonnage est de 10 [Hz]. Or le théroème de Shannon nous dit que la frequence d'échantillonnage doit etre superieure à $2 *$ la frequence max.
+La fonction originale est tracée en bleu, et la fonction recomposée est tracée en rouge. (avec une periode d'échantillonnage de 0.1 [s])  On constate que cette fonction n'est pas bien représentée, en effet si la periode est de 0.1 [s] la fréquence d'échantillonnage est de 10 [Hz]. Or le théroème de Shannon nous dit que la frequence d'échantillonnage doit etre superieure à $2 * f_{max}¨$.
 \end{center} 
 
-Moins on a d'échantillons, moins la fft est priécise et donc moins la recomposition est proche de l'originale.
+Moins on a d'échantillons, moins la fft est précise et donc moins la recomposition est proche de l'originale.
 
 \subsection{Filtre}
 Si on filtre toutes les fréquences > 5 Hz on supprime le deuxième pic et on trouve la fonction suivante après ifft.
@@ -112,10 +112,10 @@ On constate que $h(t) \approx f(t) $
 \section{Fonction de filtrage}
 La fonction permettant de filtrer les transformée de Fourier est définie dans filterFFT.m comme ceci:
 \inputminted[breaklines,breaksymbol=, linenos, frame=single,label=filterFFT.m, stepnumber=1,tabsize=2]{Matlab}{filterFFT.m}
-La fonction de filtrage travaille sur des transformée "shiftées" par la fonction fftshift, cela permet d'avoir un représentation plus proche de ce qu'un analyseur de spectre renverait et donc plus intuitif pour programmer un filtre.
+La fonction de filtrage travaille sur des transformée "shiftées" par la fonction fftshift, cela permet d'avoir un représentation plus proche de ce qu'un analyseur de spectre renverrait et donc plus intuitif pour programmer un filtre.
 
 \section{Affichage}
-Pour l'affichage, il faut prendre la module des valeurs de la transformée et supprimer la partie symétrique de la transformée de Fourier. Ceci est réalisé dans getPlotableFFT.m.
+Pour l'affichage, il faut prendre le module des valeurs de la transformée et supprimer la partie symétrique de la transformée de Fourier. Ceci est réalisé dans getPlotableFFT.m.
 \inputminted[breaklines,breaksymbol=, linenos, frame=single,label=getPlotableFFT.m, stepnumber=1,tabsize=2]{Matlab}{getPlotableFFT.m}
 
 \section{Script Principal}
